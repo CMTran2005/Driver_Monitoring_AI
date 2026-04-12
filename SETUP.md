@@ -1,4 +1,4 @@
-# 🚀 HƯỚNG DẪN CHẠY HỆ THỐNG
+#HƯỚNG DẪN CHẠY HỆ THỐNG
 
 ## **Cấu hình hiện tại:**
 - **Eye Threshold**: brightness < 102 → mắt đóng
@@ -10,7 +10,7 @@
 
 ## **3 Script chính:**
 
-### **1. 🎯 Chính - Chạy hệ thống**
+### **1. Chính - Chạy hệ thống**
 ```bash
 python test_inference.py
 ```
@@ -24,7 +24,7 @@ python test_inference.py
 
 ---
 
-### **2. 🔍 Debug - Xem vùng nhận diện**
+### **2. Debug - Xem vùng nhận diện**
 ```bash
 python diagnostic.py
 ```
@@ -40,7 +40,7 @@ python diagnostic.py
 
 ---
 
-### **3. 📊 Calibrate - Tìm threshold mới**
+### **3. Calibrate - Tìm threshold mới**
 ```bash
 python calibrate_eyes.py
 ```
@@ -116,7 +116,7 @@ YAWN_CONFIDENCE_THRESH = 0.6   # Tăng để chặt chẽ hơn
 
 ---
 
-**Bắt đầu thử nghiệm bây giờ! 🚀**
+**Bắt đầu thử nghiệm bây giờ! **
 ```bash
 python test_inference.py
 ```
