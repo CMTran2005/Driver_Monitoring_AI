@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giám sát Tài xế AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body class="bg-dark text-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">🚗 Driver Monitor AI</a>
+            <div class="navbar-nav">
+                <a class="nav-link active" href="index.html"><i class="bi bi-display"></i> Giám sát</a>
+                <a class="nav-link" href="history.html"><i class="bi bi-clock-history"></i> Lịch sử</a>
+                <a class="nav-link" href="settings.html"><i class="bi bi-gear-fill"></i> Cài đặt</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card bg-black border-secondary mb-3">
+                    <div class="card-header bg-secondary text-white">Camera Trực tiếp</div>
+                    <div class="card-body text-center camera-container">
+                        <img src="/video_feed" id="video-feed" class="img-fluid rounded shadow"
+                            alt="Camera đang tải...">
+
+                    </div>
+                </div>
+
+                <div class="card bg-secondary text-white border-secondary">
+                    <div class="card-header">Biểu đồ Tỷ lệ Mở Mắt (EAR - Eye Aspect Ratio)</div>
+                    <div class="card-body bg-dark">
+                        <canvas id="earChart" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card bg-white text-dark mb-3 border-primary">
+                    <div class="card-header bg-primary text-white fw-bold">Trạng thái Tài xế</div>
+                    <div class="card-body text-center">
+                        <h2 id="status-text" class="text-success fw-bold">TỈNH TÁO</h2>
+                        <p class="text-muted">Hệ thống đang theo dõi...</p>
+                    </div>
+                </div>
+
+                <div class="card bg-danger text-white d-none" id="alert-box">
+                    <div class="card-body text-center">
+                        <h3 class="fw-bold">⚠️ PHÁT HIỆN BUỒN NGỦ!</h3>
+                        <p>Vui lòng tập trung lái xe!</p>
+                        <button class="btn btn-light mt-2" onclick="stopAlert()">Tắt Cảnh Báo</button>
+                    </div>
+                </div>
+
+                <button class="btn btn-warning w-100 mt-3" onclick="triggerAlert()">Chạy thử Cảnh báo</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/js/script.js"></script>
+</body>
+
+</html>
