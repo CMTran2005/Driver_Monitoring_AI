@@ -1,0 +1,48 @@
+/* Đảm bảo khung camera luôn nằm giữa và đẹp mắt */
+.camera-container {
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#video-feed {
+    max-height: 480px;
+    width: 100%;
+    object-fit: cover;
+    border: 2px solid #6c757d;
+}
+
+/* Hiệu ứng nhấp nháy đỏ khi có cảnh báo nguy hiểm */
+@keyframes blinkRed {
+    0% { background-color: #dc3545; }
+    50% { background-color: #8b0000; }
+    100% { background-color: #dc3545; }
+}
+
+.alert-active {
+    animation: blinkRed 1s infinite;
+    border: 3px solid white;
+}
+/* ===================================== */
+/* HIỆU ỨNG THANH ĐIỀU HƯỚNG (NAVBAR)    */
+/* ===================================== */
+.navbar-nav .nav-link {
+    transition: all 0.3s ease; /* Chuyển động mượt mà */
+    border-radius: 5px;
+    margin: 0 5px;
+}
+
+/* Khi rê chuột vào (Hover) */
+.navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Sáng lên một chút */
+    transform: translateY(-2px); /* Nẩy lên nhẹ */
+    color: #0dcaf0 !important; /* Đổi màu chữ thành xanh lam sáng */
+}
+
+/* Dấu hiệu nhận biết trang hiện tại (Active) */
+.navbar-nav .nav-link.active {
+    font-weight: bold;
+    border-bottom: 3px solid #0dcaf0; /* Gạch chân màu xanh */
+    border-radius: 5px 5px 0 0;
+}
