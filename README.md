@@ -4,11 +4,13 @@
 
 <!-- Language Toggle -->
 **Language / Ngôn Ngữ:** 
-[🇻🇳 Tiếng Việt](#tiếng-việt) | [🇬🇧 English](#english)
+[🇻🇳 Tiếng Việt](#vietnamese) | [🇬🇧 English](#english)
 
 </div>
 
 ---
+
+<a id="vietnamese"></a>
 
 # 🇻🇳 Tiếng Việt
 
@@ -188,6 +190,8 @@ Cảm ơn tất cả những người đã đóng góp và hỗ trợ dự án n
 ---
 
 ---
+
+<a id="english"></a>
 
 # 🇬🇧 English
 
