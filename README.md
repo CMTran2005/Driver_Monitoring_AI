@@ -1,5 +1,19 @@
 # 🚗 Driver Monitoring AI
 
+<div align="center">
+
+<!-- Language Toggle -->
+**Language / Ngôn Ngữ:** 
+[🇻🇳 Tiếng Việt](#tiếng-việt) | [🇬🇧 English](#english)
+
+</div>
+
+---
+
+# 🇻🇳 Tiếng Việt
+
+## 🚗 Driver Monitoring AI
+
 Hệ thống giám sát tài xế bằng trí tuệ nhân tạo để phát hiện buồn ngủ và mất tập trung khi lái xe.
 
 ---
@@ -170,3 +184,190 @@ Cảm ơn tất cả những người đã đóng góp và hỗ trợ dự án n
 ---
 
 **⭐ Nếu bạn thích dự án này, vui lòng cho nó một star!**
+
+---
+
+---
+
+# 🇬🇧 English
+
+## 🚗 Driver Monitoring AI
+
+An artificial intelligence-based driver monitoring system to detect drowsiness and loss of concentration while driving.
+
+---
+
+## 📋 Purpose
+
+This project develops an advanced AI system that helps:
+- 🔍 **Detect driver drowsiness** during driving time
+- 👁️ **Identify loss of concentration** (distraction, phone use, etc.)
+- ⚠️ **Real-time alerts** to enhance road safety
+- 📊 **Monitor driver behavior** to improve driving skills
+
+---
+
+## ✨ Key Features
+
+- ✅ Drowsiness detection indicators (eye closure, yawning, head drop)
+- ✅ Loss of concentration detection (not looking at road, face turn, etc.)
+- ✅ Audio alerts and notifications when hazardous conditions are detected
+- ✅ User-friendly web interface for data viewing and management
+- ✅ Real-time video processing from camera for analysis
+
+---
+
+## 🛠️ Technology Stack
+
+| Technology | Percentage | Purpose |
+|-----------|-----------|---------|
+| **Python** | 51% | Backend, AI/ML, video processing |
+| **HTML** | 28.3% | Web interface |
+| **JavaScript** | 16.1% | Web interactivity |
+| **CSS** | 4.6% | Interface styling |
+
+### Main Libraries
+- **OpenCV**: Video processing and analysis
+- **TensorFlow / PyTorch**: Deep learning models
+- **Flask / Django**: Backend web server
+- **Pandas / NumPy**: Data processing
+
+---
+
+## 📦 Installation
+
+### Requirements
+- Python 3.8+
+- Camera/Webcam (or video file)
+- Node.js (for frontend - optional)
+
+### Installation Guide
+
+1. **Clone repository**
+```bash
+git clone https://github.com/CMTran2005/Driver_Monitoring_AI.git
+cd Driver_Monitoring_AI
+```
+
+2. **Create virtual environment**
+```bash
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# or
+venv\Scripts\activate  # Windows
+```
+
+3. **Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+4. **Run the application**
+```bash
+python main.py
+```
+
+5. **Access web interface** (if available)
+```
+http://localhost:5000
+```
+
+---
+
+## 🚀 Usage
+
+### From Webcam
+```bash
+python run_webcam.py
+```
+
+### From Video File
+```bash
+python run_video.py --video path/to/video.mp4
+```
+
+### With Custom Configuration
+```bash
+python main.py --confidence 0.8 --alert_sound on
+```
+
+---
+
+## 📊 Project Structure
+
+```
+Driver_Monitoring_AI/
+├── models/                 # Trained AI models
+├── src/
+│   ├── detector.py        # Core detection processing
+│   ├── alert.py           # Alert system
+│   └── utils.py           # Utility functions
+├── frontend/              # Web interface
+│   ├── index.html
+│   ├── styles.css
+│   └── script.js
+├── data/                  # Data and logs
+├── requirements.txt       # Python dependencies
+├── main.py               # Entry point
+└── README.md             # This file
+```
+
+---
+
+## 🎯 Results
+
+The system achieves:
+- **Drowsiness detection accuracy**: ~92%
+- **Loss of concentration detection accuracy**: ~88%
+- **Processing time**: Real-time (suitable FPS)
+- **Alert latency**: < 1 second
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📝 License
+
+This project is licensed under [MIT License](LICENSE) - see the LICENSE file for details.
+
+---
+
+## 📧 Contact
+
+- **Author**: CMTran2005
+- **GitHub**: [@CMTran2005](https://github.com/CMTran2005)
+- **Email**: [Add your email]
+
+---
+
+## ⚠️ Safety Notice
+
+This system is developed to **assist** drivers, not to **replace** their attention. Always comply with traffic laws and local regulations.
+
+---
+
+## 🙏 Acknowledgments
+
+Thank you to everyone who has contributed and supported this project!
+
+---
+
+**⭐ If you like this project, please give it a star!**
+
+---
+
+<div align="center">
+
+[🔝 Back to Top](#-driver-monitoring-ai)
+
+</div>
