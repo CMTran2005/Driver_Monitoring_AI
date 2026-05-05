@@ -36,6 +36,10 @@ def train_and_save(X, y, model_name):
     
     joblib.dump(model, f'trainer/{model_name}.pkl')
     print(f"Đã lưu: {model_name}.pkl\n")
+    
+    from sklearn.metrics import accuracy_score
+    y_pred = model.predict(X_test)
+    print(f"Độ chính xác của {model_name}: {accuracy_score(y_test, y_pred) * 100:.2f}%")
 
 X_eye, y_eye = load_data_from_folders('closed', 'open')
 train_and_save(X_eye, y_eye, 'eye_model')

@@ -394,5 +394,3 @@ If you like this project, please give it a star!
 <div align="center">
 
 [Back to Top](#driver-monitoring-ai)
-
-</div>
