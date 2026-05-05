@@ -87,7 +87,7 @@ pip install -r requirements.txt
 
 4. **Chạy ứng dụng**
 ```bash
-python main.py
+python app.py
 ```
 
 5. **Truy cập web interface** (nếu có)
@@ -131,7 +131,7 @@ Driver_Monitoring_AI/
 │   └── script.js
 ├── data/                  # Dữ liệu và logs
 ├── requirements.txt       # Dependencies Python
-├── main.py               # Entry point
+├── app.py               # Entry point
 └── README.md             # File này
 ```
 
@@ -278,7 +278,7 @@ pip install -r requirements.txt
 
 4. **Run the application**
 ```bash
-python main.py
+python app.py
 ```
 
 5. **Access web interface** (if available)
@@ -322,7 +322,7 @@ Driver_Monitoring_AI/
 │   └── script.js
 ├── data/                  # Data and logs
 ├── requirements.txt       # Python dependencies
-├── main.py               # Entry point
+├── app.py               # Entry point
 └── README.md             # This file
 ```
 
