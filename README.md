@@ -23,7 +23,7 @@ Hệ thống giám sát tài xế bằng trí tuệ nhân tạo để phát hi�
 ## Mục Đích
 
 Dự án này phát triển một hệ thống AI tiên tiến giúp:
-- **Phát hiện buồn ng��** của tài xế trong thời gian lái xe
+- **Phát hiện buồn ngủ** của tài xế trong thời gian lái xe
 - **Nhận diện mất tập trung** (lạc tập trung, sử dụng điện thoại, v.v.)
 - **Cảnh báo thời gian thực** để nâng cao an toàn giao thông
 - **Theo dõi hành vi** của tài xế để cải thiện kỹ năng lái xe
@@ -151,9 +151,9 @@ Hệ thống đạt được:
 
 | Tên | GitHub | Vai Trò |
 |-----|--------|---------|
-| CMTran2005 | [@CMTran2005](https://github.com/CMTran2005) | Project Lead + AI Training |
+| Trần Châu Minh | [@CMTran2005](https://github.com/CMTran2005) | Project Lead + AI Training |
+| Trần Kim Thịnh | [@thinhk16k5](https://github.com/TranKimThinh) | Web & UI |
 | Trần Quang Huy | [@huydz252](https://github.com/huydz252) | Data & Design |
-| Thịnh | [@thinhk16k5](https://github.com/thinhk16k5) | Web & UI |
 
 ---
 
@@ -177,10 +177,10 @@ Dự án này được cấp phép dưới [MIT License](LICENSE) - xem file LIC
 
 ## Liên Hệ
 
-- **Tác giả**: CMTran2005
-- **GitHub**: [@CMTran2005](https://github.com/CMTran2005)
-- **Email**: [Thêm email của bạn]
-
+- **Project Lead + AI Training**: Trần Châu Minh - [@CMTran2005](https://github.com/CMTran2005)
+- **Web & UI**: Trần Kim Thịnh - [@thinhk16k5](https://github.com/TranKimThinh)
+- **Data & Design**: Trần Quang Huy - [@huydz252](https://github.com/huydz252)
+- **Email**: cmtran2005@gmail.com
 ---
 
 ## Lưu Ý Về An Toàn
@@ -342,9 +342,9 @@ The system achieves:
 
 | Name | GitHub | Role |
 |------|--------|------|
-| CMTran2005 | [@CMTran2005](https://github.com/CMTran2005) | Project Lead + AI Training |
-| Trần Quang Huy | [@huydz252](https://github.com/huydz252) | Data & Design |
-| Thịnh | [@thinhk16k5](https://github.com/thinhk16k5) | Web & UI |
+| Tran Chau Minh | [@CMTran2005](https://github.com/CMTran2005) | Project Lead + AI Training |
+| Tran Kim Thinh | [@thinhk16k5](https://github.com/TranKimThinh) | Web & UI |
+| Tran Quang Huy | [@huydz252](https://github.com/huydz252) | Data & Design |
 
 ---
 
@@ -368,10 +368,11 @@ This project is licensed under [MIT License](LICENSE) - see the LICENSE file for
 
 ## Contact
 
-- **Author**: CMTran2005
-- **GitHub**: [@CMTran2005](https://github.com/CMTran2005)
-- **Email**: [Add your email]
-
+- **Project Lead + AI Training**: Tran Chau Minh - [@CMTran2005](https://github.com/CMTran2005)
+- **Web & UI**: Tran Kim Thinh - [@thinhk16k5](https://github.com/TranKimThinh)
+- **Data & Design**: Tran Quang Huy - [@huydz252](https://github.com/huydz252)
+- **Email**: cmtran2005@gmail.com
+  
 ---
 
 ## Safety Notice
