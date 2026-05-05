@@ -1,10 +1,10 @@
-# 🚗 Driver Monitoring AI
+# Driver Monitoring AI
 
 <div align="center">
 
 <!-- Language Toggle -->
 **Language / Ngôn Ngữ:** 
-[🇻🇳 Tiếng Việt](#vietnamese) | [🇬🇧 English](#english)
+[Tiếng Việt](#vietnamese) | [English](#english)
 
 </div>
 
@@ -12,35 +12,35 @@
 
 <a id="vietnamese"></a>
 
-# 🇻🇳 Tiếng Việt
+# Tiếng Việt
 
-## 🚗 Driver Monitoring AI
+## Driver Monitoring AI
 
 Hệ thống giám sát tài xế bằng trí tuệ nhân tạo để phát hiện buồn ngủ và mất tập trung khi lái xe.
 
 ---
 
-## 📋 Mục Đích
+## Mục Đích
 
 Dự án này phát triển một hệ thống AI tiên tiến giúp:
-- 🔍 **Phát hiện buồn ngủ** của tài xế trong thời gian lái xe
-- 👁️ **Nhận diện mất tập trung** (lạc tập trung, sử dụng điện thoại, v.v.)
-- ⚠️ **Cảnh báo thời gian thực** để nâng cao an toàn giao thông
-- 📊 **Theo dõi hành vi** của tài xế để cải thiện kỹ năng lái xe
+- **Phát hiện buồn ngủ** của tài xế trong thời gian lái xe
+- **Nhận diện mất tập trung** (lạc tập trung, sử dụng điện thoại, v.v.)
+- **Cảnh báo thời gian thực** để nâng cao an toàn giao thông
+- **Theo dõi hành vi** của tài xế để cải thiện kỹ năng lái xe
 
 ---
 
-## ✨ Tính Năng Chính
+## Tính Năng Chính
 
-- ✅ Phát hiện dấu hiệu buồn ngủ (nhắm mắt, ngáp, đầu rơi)
-- ✅ Nhận diện mất tập trung (không nhìn đường, quay mặt, v.v.)
-- ✅ Cảnh báo âm thanh và thông báo khi phát hiện tình trạng nguy hiểm
-- ✅ Giao diện web thân thiện cho xem và quản lý dữ liệu
-- ✅ Xử lý video từ camera để phân tích theo thời gian thực
+- Phát hiện dấu hiệu buồn ngủ (nhắm mắt, ngáp, đầu rơi)
+- Nhận diện mất tập trung (không nhìn đường, quay mặt, v.v.)
+- Cảnh báo âm thanh và thông báo khi phát hiện tình trạng nguy hiểm
+- Giao diện web thân thiện cho xem và quản lý dữ liệu
+- Xử lý video từ camera để phân tích theo thời gian thực
 
 ---
 
-## 🛠️ Công Nghệ Sử Dụng
+## Công Nghệ Sử Dụng
 
 | Công Nghệ | Phần Trăm | Mục Đích |
 |-----------|----------|---------|
@@ -57,7 +57,7 @@ Dự án này phát triển một hệ thống AI tiên tiến giúp:
 
 ---
 
-## 📦 Cài Đặt
+## Cài Đặt
 
 ### Yêu Cầu
 - Python 3.8+
@@ -97,7 +97,7 @@ http://localhost:5000
 
 ---
 
-## 🚀 Cách Sử Dụng
+## Cách Sử Dụng
 
 ### Từ Webcam
 ```bash
@@ -116,7 +116,7 @@ python main.py --confidence 0.8 --alert_sound on
 
 ---
 
-## 📊 Cấu Trúc Dự Án
+## Cấu Trúc Dự Án
 
 ```
 Driver_Monitoring_AI/
@@ -137,7 +137,7 @@ Driver_Monitoring_AI/
 
 ---
 
-## 🎯 Kết Quả
+## Kết Quả
 
 Hệ thống đạt được:
 - **Độ chính xác phát hiện buồn ngủ**: ~92%
@@ -147,7 +147,7 @@ Hệ thống đạt được:
 
 ---
 
-## 🤝 Đóng Góp
+## Đóng Góp
 
 Chúng tôi hoan nghênh các đóng góp! Vui lòng:
 
@@ -159,13 +159,13 @@ Chúng tôi hoan nghênh các đóng góp! Vui lòng:
 
 ---
 
-## 📝 License
+## License
 
 Dự án này được cấp phép dưới [MIT License](LICENSE) - xem file LICENSE để biết chi tiết.
 
 ---
 
-## 📧 Liên Hệ
+## Liên Hệ
 
 - **Tác giả**: CMTran2005
 - **GitHub**: [@CMTran2005](https://github.com/CMTran2005)
@@ -173,19 +173,19 @@ Dự án này được cấp phép dưới [MIT License](LICENSE) - xem file LIC
 
 ---
 
-## ⚠️ Lưu Ý Về An Toàn
+## Lưu Ý Về An Toàn
 
 Hệ thống này được phát triển để **hỗ trợ** tài xế, không phải để **thay thế** sự chú ý của họ. Luôn tuân thủ luật giao thông và quy định địa phương.
 
 ---
 
-## 🙏 Cảm Ơn
+## Cảm Ơn
 
 Cảm ơn tất cả những người đã đóng góp và hỗ trợ dự án này!
 
 ---
 
-**⭐ Nếu bạn thích dự án này, vui lòng cho nó một star!**
+Nếu bạn thích dự án này, vui lòng cho nó một star!
 
 ---
 
@@ -193,35 +193,35 @@ Cảm ơn tất cả những người đã đóng góp và hỗ trợ dự án n
 
 <a id="english"></a>
 
-# 🇬🇧 English
+# English
 
-## 🚗 Driver Monitoring AI
+## Driver Monitoring AI
 
 An artificial intelligence-based driver monitoring system to detect drowsiness and loss of concentration while driving.
 
 ---
 
-## 📋 Purpose
+## Purpose
 
 This project develops an advanced AI system that helps:
-- 🔍 **Detect driver drowsiness** during driving time
-- 👁️ **Identify loss of concentration** (distraction, phone use, etc.)
-- ⚠️ **Real-time alerts** to enhance road safety
-- 📊 **Monitor driver behavior** to improve driving skills
+- **Detect driver drowsiness** during driving time
+- **Identify loss of concentration** (distraction, phone use, etc.)
+- **Real-time alerts** to enhance road safety
+- **Monitor driver behavior** to improve driving skills
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-- ✅ Drowsiness detection indicators (eye closure, yawning, head drop)
-- ✅ Loss of concentration detection (not looking at road, face turn, etc.)
-- ✅ Audio alerts and notifications when hazardous conditions are detected
-- ✅ User-friendly web interface for data viewing and management
-- ✅ Real-time video processing from camera for analysis
+- Drowsiness detection indicators (eye closure, yawning, head drop)
+- Loss of concentration detection (not looking at road, face turn, etc.)
+- Audio alerts and notifications when hazardous conditions are detected
+- User-friendly web interface for data viewing and management
+- Real-time video processing from camera for analysis
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Technology | Percentage | Purpose |
 |-----------|-----------|---------|
@@ -238,7 +238,7 @@ This project develops an advanced AI system that helps:
 
 ---
 
-## 📦 Installation
+## Installation
 
 ### Requirements
 - Python 3.8+
@@ -278,7 +278,7 @@ http://localhost:5000
 
 ---
 
-## 🚀 Usage
+## Usage
 
 ### From Webcam
 ```bash
@@ -297,7 +297,7 @@ python main.py --confidence 0.8 --alert_sound on
 
 ---
 
-## 📊 Project Structure
+## Project Structure
 
 ```
 Driver_Monitoring_AI/
@@ -318,7 +318,7 @@ Driver_Monitoring_AI/
 
 ---
 
-## 🎯 Results
+## Results
 
 The system achieves:
 - **Drowsiness detection accuracy**: ~92%
@@ -328,7 +328,7 @@ The system achieves:
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please:
 
@@ -340,13 +340,13 @@ We welcome contributions! Please:
 
 ---
 
-## 📝 License
+## License
 
 This project is licensed under [MIT License](LICENSE) - see the LICENSE file for details.
 
 ---
 
-## 📧 Contact
+## Contact
 
 - **Author**: CMTran2005
 - **GitHub**: [@CMTran2005](https://github.com/CMTran2005)
@@ -354,24 +354,24 @@ This project is licensed under [MIT License](LICENSE) - see the LICENSE file for
 
 ---
 
-## ⚠️ Safety Notice
+## Safety Notice
 
 This system is developed to **assist** drivers, not to **replace** their attention. Always comply with traffic laws and local regulations.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 Thank you to everyone who has contributed and supported this project!
 
 ---
 
-**⭐ If you like this project, please give it a star!**
+If you like this project, please give it a star!
 
 ---
 
 <div align="center">
 
-[🔝 Back to Top](#-driver-monitoring-ai)
+[Back to Top](#driver-monitoring-ai)
 
 </div>
