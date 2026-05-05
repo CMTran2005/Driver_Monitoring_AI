@@ -23,7 +23,7 @@ Hệ thống giám sát tài xế bằng trí tuệ nhân tạo để phát hi�
 ## Mục Đích
 
 Dự án này phát triển một hệ thống AI tiên tiến giúp:
-- **Phát hiện buồn ngủ** của tài xế trong thời gian lái xe
+- **Phát hiện buồn ng��** của tài xế trong thời gian lái xe
 - **Nhận diện mất tập trung** (lạc tập trung, sử dụng điện thoại, v.v.)
 - **Cảnh báo thời gian thực** để nâng cao an toàn giao thông
 - **Theo dõi hành vi** của tài xế để cải thiện kỹ năng lái xe
@@ -144,6 +144,16 @@ Hệ thống đạt được:
 - **Độ chính xác phát hiện mất tập trung**: ~88%
 - **Thời gian xử lý**: Real-time (FPS phù hợp)
 - **Độ trễ cảnh báo**: < 1 giây
+
+---
+
+## Cộng Tác Viên
+
+| Tên | GitHub | Vai Trò |
+|-----|--------|---------|
+| CMTran2005 | [@CMTran2005](https://github.com/CMTran2005) | Project Lead + AI Training |
+| Trần Quang Huy | [@huydz252](https://github.com/huydz252) | Data & Design |
+| Thịnh | [@thinhk16k5](https://github.com/thinhk16k5) | Web & UI |
 
 ---
 
@@ -325,6 +335,16 @@ The system achieves:
 - **Loss of concentration detection accuracy**: ~88%
 - **Processing time**: Real-time (suitable FPS)
 - **Alert latency**: < 1 second
+
+---
+
+## Contributors
+
+| Name | GitHub | Role |
+|------|--------|------|
+| CMTran2005 | [@CMTran2005](https://github.com/CMTran2005) | Project Lead + AI Training |
+| Trần Quang Huy | [@huydz252](https://github.com/huydz252) | Data & Design |
+| Thịnh | [@thinhk16k5](https://github.com/thinhk16k5) | Web & UI |
 
 ---
 
