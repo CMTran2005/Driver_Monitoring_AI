@@ -2,7 +2,6 @@
 
 <div align="center">
 
-<!-- Language Toggle -->
 **Language / Ngôn Ngữ:** 
 [Tiếng Việt](#vietnamese) | [English](#english)
 
@@ -16,27 +15,29 @@
 
 ## Driver Monitoring AI
 
-Hệ thống giám sát tài xế bằng trí tuệ nhân tạo để phát hiện buồn ngủ và mất tập trung khi lái xe.
+Hệ thống giám sát tài xế bằng trí tuệ nhân tạo để phát hiện buồn ngủ và ngáp khi lái xe, giúp nâng cao an toàn giao thông.
 
 ---
 
 ## Mục Đích
 
 Dự án này phát triển một hệ thống AI tiên tiến giúp:
-- **Phát hiện buồn ngủ** của tài xế trong thời gian lái xe
-- **Nhận diện mất tập trung** (lạc tập trung, sử dụng điện thoại, v.v.)
-- **Cảnh báo thời gian thực** để nâng cao an toàn giao thông
-- **Theo dõi hành vi** của tài xế để cải thiện kỹ năng lái xe
+- **Phát hiện buồn ngủ** (Closed Eyes) - Nhắm mắt liên tục > 20 frames
+- **Phát hiện ngáp** (Yawn) - Ngáp liên tục > 35 frames
+- **Cảnh báo thời gian thực** bằng âm thanh và hình ảnh
+- **Giao diện web** để xem lịch sử và cài đặt
 
 ---
 
 ## Tính Năng Chính
 
-- Phát hiện dấu hiệu buồn ngủ (nhắm mắt, ngáp, đầu rơi)
-- Nhận diện mất tập trung (không nhìn đường, quay mặt, v.v.)
-- Cảnh báo âm thanh và thông báo khi phát hiện tình trạng nguy hiểm
-- Giao diện web thân thiện cho xem và quản lý dữ liệu
-- Xử lý video từ camera để phân tích theo thời gian thực
+- Phát hiện mắt đóng với độ chính xác 90.69%
+- Phát hiện ngáp với độ chính xác 95.14%
+- Cảnh báo âm thanh (tần số khác nhau cho mắt và ngáp)
+- Giao diện web Flask hiển thị realtime
+- Tính toán EAR (Eye Aspect Ratio) trên giao diện
+- Calibrate threshold tự động
+- Debug tool để kiểm tra vùng nhận diện
 
 ---
 
@@ -44,75 +45,128 @@ Dự án này phát triển một hệ thống AI tiên tiến giúp:
 
 | Công Nghệ | Phần Trăm | Mục Đích |
 |-----------|----------|---------|
-| **Python** | 51% | Backend, AI/ML, xử lý video |
+| **Python** | 51% | Backend AI, xử lý video |
 | **HTML** | 28.3% | Giao diện web |
-| **JavaScript** | 16.1% | Interactivity trên web |
-| **CSS** | 4.6% | Styling giao diện |
+| **JavaScript** | 16.1% | Interactivity, chart |
+| **CSS** | 4.6% | Styling |
 
 ### Thư Viện Chính
-- **OpenCV**: Xử lý và phân tích video
-- **TensorFlow / PyTorch**: Mô hình học sâu
-- **Flask / Django**: Backend web server
-- **Pandas / NumPy**: Xử lý dữ liệu
+- **OpenCV** (cv2): Xử lý video & nhận diện khuôn mặt
+- **MediaPipe**: Landmark detection (mắt, miệng)
+- **Scikit-learn** (joblib): SVM models cho eye/yawn
+- **Flask**: Web server
+- **NumPy**: Xử lý dữ liệu
 
 ---
 
-## Cài Đặt
+## Cấu Hình Hiện Tại
+
+### Phát Hiện Mắt
+- **Brightness Threshold**: < 102 → Mắt đóng
+- **Frame Threshold**: 20 frames liên tục
+- **Confidence Min**: 0.6
+- **Accuracy**: 90.69% | Precision: 89.36% | Recall: 94.03%
+
+### Phát Hiện Ngáp
+- **Mouth ROI**: y=[0.72:0.82], x=[0.28:0.72]
+- **Frame Threshold**: 35 frames liên tục
+- **Confidence Min**: 1.15
+- **Accuracy**: 95.14% | Precision: 96.12% | Recall: 94.66%
+
+---
+
+## Hướng Dẫn Cài Đặt
 
 ### Yêu Cầu
 - Python 3.8+
-- Camera/Webcam (hoặc video file)
-- Node.js (cho frontend - tùy chọn)
+- Webcam
+- Thư viện trong requirements.txt
 
-### Hướng Dẫn Cài Đặt
-
-1. **Clone repository**
+### Bước 1: Clone Repository
 ```bash
 git clone https://github.com/CMTran2005/Driver_Monitoring_AI.git
 cd Driver_Monitoring_AI
 ```
 
-2. **Tạo virtual environment**
+### Bước 2: Tạo Virtual Environment
 ```bash
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# hoặc
-venv\Scripts\activate  # Windows
+
+# Windows
+venv\Scripts\activate
+
+# Linux/Mac
+source venv/bin/activate
 ```
 
-3. **Cài đặt dependencies**
+### Bước 3: Cài Đặt Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-4. **Chạy ứng dụng**
-```bash
-python app.py
-```
-
-5. **Truy cập web interface** (nếu có)
-```
-http://localhost:5000
-```
+### Bước 4: Chuẩn Bị Model
+Đảm bảo thư mục `trainer/` chứa:
+- `eye_model.pkl` - Model phát hiện mắt
+- `yawn_model.pkl` - Model phát hiện ngáp
 
 ---
 
 ## Cách Sử Dụng
 
-### Từ Webcam
+### Script Chính: detect.py
+Chạy hệ thống phát hiện realtime:
 ```bash
-python run_webcam.py
+python detect.py
 ```
 
-### Từ Video File
+Chức năng:
+- Detect mắt & ngáp realtime từ webcam
+- Hiển thị cảnh báo khi phát hiện
+- Phát âm thanh cảnh báo (2500Hz cho mắt, 1500Hz cho ngáp)
+- Nhấn 'q' để thoát
+
+---
+
+### Script Debug: diagnostic.py
+Kiểm tra vùng nhận diện:
 ```bash
-python run_video.py --video path/to/video.mp4
+python diagnostic.py
 ```
 
-### Với Cấu Hình Tuỳ Chỉnh
+Hiển thị:
+- **XANH LÒNG**: Vùng mắt được detect
+- **CYAN**: Vùng fallback check brightness
+- **VÀNG**: Vùng miệng (mouth ROI)
+- Confidence score & brightness value
+
+---
+
+### Script Calibrate: calibrate_eyes.py
+Tìm threshold mắt mới:
 ```bash
-python main.py --confidence 0.8 --alert_sound on
+python calibrate_eyes.py
 ```
+
+Chức năng:
+- Ghi nhận brightness khi MỞ & NHẮM mắt
+- Tính toán threshold tự động
+- Đề xuất giá trị ngưỡng mới
+
+---
+
+### Web App: app.py
+Chạy giao diện web:
+```bash
+python app.py
+```
+
+Truy cập: http://localhost:5000
+
+Tính năng:
+- Realtime video feed từ webcam
+- Trạng thái tài xế (tỉnh táo / buồn ngủ)
+- EAR indicator
+- Lịch sử & cài đặt
 
 ---
 
@@ -120,30 +174,67 @@ python main.py --confidence 0.8 --alert_sound on
 
 ```
 Driver_Monitoring_AI/
-├── models/                 # Mô hình AI đã huấn luyện
-├── src/
-│   ├── detector.py        # Lõi xử lý phát hiện
-│   ├── alert.py           # Hệ thống cảnh báo
-│   └── utils.py           # Hàm tiện ích
-├── frontend/              # Giao diện web
+├── detect.py              # Script chính phát hiện
+├── app.py                 # Web server Flask
+├── test_inference.py      # Test model
+├── diagnostic.py          # Debug tool
+├── calibrate_eyes.py      # Calibrate threshold
+├── CONFIG.py              # Cấu hình tham số
+├── SETUP.md               # Hướng dẫn chạy chi tiết
+├── requirements.txt       # Python dependencies
+├── trainer/               # Thư mục chứa models
+│   ├── eye_model.pkl      # Model phát hiện mắt
+│   └── yawn_model.pkl     # Model phát hiện ngáp
+├── templates/             # HTML templates
 │   ├── index.html
-│   ├── styles.css
-│   └── script.js
-├── data/                  # Dữ liệu và logs
-├── requirements.txt       # Dependencies Python
-├── app.py               # Entry point
-└── README.md             # File này
+│   ├── history.html
+│   └── settings.html
+├── static/                # CSS, JS, images
+└── database/              # Dữ liệu lưu trữ
 ```
 
 ---
 
-## Kết Quả
+## Tùy Chỉnh Cấu Hình
 
-Hệ thống đạt được:
-- **Độ chính xác phát hiện buồn ngủ**: ~92%
-- **Độ chính xác phát hiện mất tập trung**: ~88%
-- **Thời gian xử lý**: Real-time (FPS phù hợp)
-- **Độ trễ cảnh báo**: < 1 giây
+### Vùng Mắt Không Chính Xác
+Chỉnh sửa trong `CONFIG.py` hoặc `detect.py`:
+```python
+EYE_CONF_THRESH = 0.6      # Tăng để chặt chẽ hơn
+EYE_LIMIT = 20             # Tăng nếu quá nhạy
+```
+
+### Vùng Miệng Không Chính Xác
+```python
+mouth_roi = {
+    'y_start': 0.72,   # Điều chỉnh vị trí Y
+    'y_end': 0.82,
+    'x_start': 0.28,   # Điều chỉnh vị trí X
+    'x_end': 0.72,
+}
+```
+
+### Cảnh Báo Quá Nhạy/Chậm
+```python
+EYE_LIMIT = 20         # Tăng → cảnh báo chậm hơn
+YAWN_LIMIT = 35        # Tăng → cảnh báo chậm hơn
+```
+
+---
+
+## Hiệu Năng
+
+**Eye Detection:**
+- Accuracy: 90.69%
+- Precision: 89.36%
+- Recall: 94.03%
+- F1-Score: 91.64%
+
+**Yawn Detection:**
+- Accuracy: 95.14%
+- Precision: 96.12%
+- Recall: 94.66%
+- F1-Score: 95.38%
 
 ---
 
@@ -151,9 +242,31 @@ Hệ thống đạt được:
 
 | Tên | GitHub | Vai Trò |
 |-----|--------|---------|
-| Trần Châu Minh | [@CMTran2005](https://github.com/CMTran2005) | Project Lead + AI Training |
-| Trần Kim Thịnh | [@thinhk16k5](https://github.com/TranKimThinh) | Web & UI |
+| CMTran2005 | [@CMTran2005](https://github.com/CMTran2005) | Project Lead + AI Training |
 | Trần Quang Huy | [@huydz252](https://github.com/huydz252) | Data & Design |
+| Thịnh | [@thinhk16k5](https://github.com/thinhk16k5) | Web & UI |
+
+---
+
+## Quy Trình Thử Nghiệm
+
+1. **Chạy script chính:**
+   ```bash
+   python detect.py
+   ```
+   - Mở mắt bình thường → kiểm tra
+   - Nhắm mắt 2-3 giây → xem có báo không
+   - Ngáp 2-3 lần → xem có báo không
+
+2. **Nếu có vấn đề, dùng diagnostic:**
+   ```bash
+   python diagnostic.py
+   ```
+
+3. **Nếu cần calibrate lại:**
+   ```bash
+   python calibrate_eyes.py
+   ```
 
 ---
 
@@ -171,27 +284,21 @@ Chúng tôi hoan nghênh các đóng góp! Vui lòng:
 
 ## License
 
-Dự án này được cấp phép dưới [MIT License](LICENSE) - xem file LICENSE để biết chi tiết.
+Dự án này được cấp phép dưới [MIT License](LICENSE)
 
 ---
 
 ## Liên Hệ
 
-- **Project Lead + AI Training**: Trần Châu Minh - [@CMTran2005](https://github.com/CMTran2005)
-- **Web & UI**: Trần Kim Thịnh - [@thinhk16k5](https://github.com/TranKimThinh)
+- **Project Lead + AI Training**: CMTran2005 - [@CMTran2005](https://github.com/CMTran2005)
 - **Data & Design**: Trần Quang Huy - [@huydz252](https://github.com/huydz252)
-- **Email**: cmtran2005@gmail.com
+- **Web & UI**: Thịnh - [@thinhk16k5](https://github.com/thinhk16k5)
+
 ---
 
 ## Lưu Ý Về An Toàn
 
 Hệ thống này được phát triển để **hỗ trợ** tài xế, không phải để **thay thế** sự chú ý của họ. Luôn tuân thủ luật giao thông và quy định địa phương.
-
----
-
-## Cảm Ơn
-
-Cảm ơn tất cả những người đã đóng góp và hỗ trợ dự án này!
 
 ---
 
@@ -207,27 +314,29 @@ Nếu bạn thích dự án này, vui lòng cho nó một star!
 
 ## Driver Monitoring AI
 
-An artificial intelligence-based driver monitoring system to detect drowsiness and loss of concentration while driving.
+An AI-based driver monitoring system that detects drowsiness and yawning while driving to enhance road safety.
 
 ---
 
 ## Purpose
 
 This project develops an advanced AI system that helps:
-- **Detect driver drowsiness** during driving time
-- **Identify loss of concentration** (distraction, phone use, etc.)
-- **Real-time alerts** to enhance road safety
-- **Monitor driver behavior** to improve driving skills
+- **Detect drowsiness** (Closed Eyes) - Continuous eye closure > 20 frames
+- **Detect yawning** - Continuous yawning > 35 frames
+- **Real-time alerts** with sound and visual warnings
+- **Web interface** for history and settings management
 
 ---
 
 ## Key Features
 
-- Drowsiness detection indicators (eye closure, yawning, head drop)
-- Loss of concentration detection (not looking at road, face turn, etc.)
-- Audio alerts and notifications when hazardous conditions are detected
-- User-friendly web interface for data viewing and management
-- Real-time video processing from camera for analysis
+- Eye detection with 90.69% accuracy
+- Yawn detection with 95.14% accuracy
+- Audio alerts (different frequencies for eyes and yawn)
+- Flask web interface with realtime streaming
+- EAR (Eye Aspect Ratio) calculation
+- Automatic threshold calibration
+- Debug tool for region inspection
 
 ---
 
@@ -235,75 +344,128 @@ This project develops an advanced AI system that helps:
 
 | Technology | Percentage | Purpose |
 |-----------|-----------|---------|
-| **Python** | 51% | Backend, AI/ML, video processing |
+| **Python** | 51% | Backend AI, video processing |
 | **HTML** | 28.3% | Web interface |
-| **JavaScript** | 16.1% | Web interactivity |
-| **CSS** | 4.6% | Interface styling |
+| **JavaScript** | 16.1% | Interactivity, charts |
+| **CSS** | 4.6% | Styling |
 
 ### Main Libraries
-- **OpenCV**: Video processing and analysis
-- **TensorFlow / PyTorch**: Deep learning models
-- **Flask / Django**: Backend web server
-- **Pandas / NumPy**: Data processing
+- **OpenCV** (cv2): Video processing & face detection
+- **MediaPipe**: Landmark detection (eyes, mouth)
+- **Scikit-learn** (joblib): SVM models for eye/yawn
+- **Flask**: Web server
+- **NumPy**: Data processing
 
 ---
 
-## Installation
+## Current Configuration
+
+### Eye Detection
+- **Brightness Threshold**: < 102 → Eyes closed
+- **Frame Threshold**: 20 consecutive frames
+- **Confidence Min**: 0.6
+- **Accuracy**: 90.69% | Precision: 89.36% | Recall: 94.03%
+
+### Yawn Detection
+- **Mouth ROI**: y=[0.72:0.82], x=[0.28:0.72]
+- **Frame Threshold**: 35 consecutive frames
+- **Confidence Min**: 1.15
+- **Accuracy**: 95.14% | Precision: 96.12% | Recall: 94.66%
+
+---
+
+## Installation Guide
 
 ### Requirements
 - Python 3.8+
-- Camera/Webcam (or video file)
-- Node.js (for frontend - optional)
+- Webcam
+- Libraries from requirements.txt
 
-### Installation Guide
-
-1. **Clone repository**
+### Step 1: Clone Repository
 ```bash
 git clone https://github.com/CMTran2005/Driver_Monitoring_AI.git
 cd Driver_Monitoring_AI
 ```
 
-2. **Create virtual environment**
+### Step 2: Create Virtual Environment
 ```bash
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# or
-venv\Scripts\activate  # Windows
+
+# Windows
+venv\Scripts\activate
+
+# Linux/Mac
+source venv/bin/activate
 ```
 
-3. **Install dependencies**
+### Step 3: Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-4. **Run the application**
-```bash
-python app.py
-```
-
-5. **Access web interface** (if available)
-```
-http://localhost:5000
-```
+### Step 4: Prepare Models
+Ensure `trainer/` folder contains:
+- `eye_model.pkl` - Eye detection model
+- `yawn_model.pkl` - Yawn detection model
 
 ---
 
 ## Usage
 
-### From Webcam
+### Main Script: detect.py
+Run the realtime detection system:
 ```bash
-python run_webcam.py
+python detect.py
 ```
 
-### From Video File
+Features:
+- Realtime eye & yawn detection from webcam
+- Visual alerts when detected
+- Audio alerts (2500Hz for eyes, 1500Hz for yawn)
+- Press 'q' to exit
+
+---
+
+### Debug Script: diagnostic.py
+Inspect detection regions:
 ```bash
-python run_video.py --video path/to/video.mp4
+python diagnostic.py
 ```
 
-### With Custom Configuration
+Displays:
+- **GREEN**: Eye detection region
+- **CYAN**: Fallback brightness check region
+- **YELLOW**: Mouth ROI
+- Confidence scores & brightness values
+
+---
+
+### Calibrate Script: calibrate_eyes.py
+Find new eye threshold:
 ```bash
-python main.py --confidence 0.8 --alert_sound on
+python calibrate_eyes.py
 ```
+
+Features:
+- Record brightness with OPEN eyes
+- Record brightness with CLOSED eyes
+- Calculate optimal threshold automatically
+
+---
+
+### Web App: app.py
+Run web interface:
+```bash
+python app.py
+```
+
+Access: http://localhost:5000
+
+Features:
+- Realtime webcam feed
+- Driver status (alert/awake)
+- EAR indicator
+- History & settings
 
 ---
 
@@ -311,30 +473,67 @@ python main.py --confidence 0.8 --alert_sound on
 
 ```
 Driver_Monitoring_AI/
-├── models/                 # Trained AI models
-├── src/
-│   ├── detector.py        # Core detection processing
-│   ├── alert.py           # Alert system
-│   └── utils.py           # Utility functions
-├── frontend/              # Web interface
-│   ├── index.html
-│   ├── styles.css
-│   └── script.js
-├── data/                  # Data and logs
+├── detect.py              # Main detection script
+├── app.py                 # Flask web server
+├── test_inference.py      # Model testing
+├── diagnostic.py          # Debug tool
+├── calibrate_eyes.py      # Threshold calibration
+├── CONFIG.py              # Configuration parameters
+├── SETUP.md               # Detailed setup guide
 ├── requirements.txt       # Python dependencies
-├── app.py               # Entry point
-└── README.md             # This file
+├── trainer/               # Models folder
+│   ├── eye_model.pkl      # Eye detection model
+│   └── yawn_model.pkl     # Yawn detection model
+├── templates/             # HTML templates
+│   ├── index.html
+│   ├── history.html
+│   └── settings.html
+├── static/                # CSS, JS, images
+└── database/              # Data storage
 ```
 
 ---
 
-## Results
+## Customization
 
-The system achieves:
-- **Drowsiness detection accuracy**: ~92%
-- **Loss of concentration detection accuracy**: ~88%
-- **Processing time**: Real-time (suitable FPS)
-- **Alert latency**: < 1 second
+### Eye Region Not Accurate
+Edit in `CONFIG.py` or `detect.py`:
+```python
+EYE_CONF_THRESH = 0.6      # Increase for stricter detection
+EYE_LIMIT = 20             # Increase if too sensitive
+```
+
+### Mouth Region Not Accurate
+```python
+mouth_roi = {
+    'y_start': 0.72,   # Adjust Y position
+    'y_end': 0.82,
+    'x_start': 0.28,   # Adjust X position
+    'x_end': 0.72,
+}
+```
+
+### Alerts Too Sensitive/Slow
+```python
+EYE_LIMIT = 20         # Increase → slower alerts
+YAWN_LIMIT = 35        # Increase → slower alerts
+```
+
+---
+
+## Performance
+
+**Eye Detection:**
+- Accuracy: 90.69%
+- Precision: 89.36%
+- Recall: 94.03%
+- F1-Score: 91.64%
+
+**Yawn Detection:**
+- Accuracy: 95.14%
+- Precision: 96.12%
+- Recall: 94.66%
+- F1-Score: 95.38%
 
 ---
 
@@ -342,9 +541,31 @@ The system achieves:
 
 | Name | GitHub | Role |
 |------|--------|------|
-| Tran Chau Minh | [@CMTran2005](https://github.com/CMTran2005) | Project Lead + AI Training |
-| Tran Kim Thinh | [@thinhk16k5](https://github.com/TranKimThinh) | Web & UI |
-| Tran Quang Huy | [@huydz252](https://github.com/huydz252) | Data & Design |
+| CMTran2005 | [@CMTran2005](https://github.com/CMTran2005) | Project Lead + AI Training |
+| Trần Quang Huy | [@huydz252](https://github.com/huydz252) | Data & Design |
+| Thịnh | [@thinhk16k5](https://github.com/thinhk16k5) | Web & UI |
+
+---
+
+## Testing Procedure
+
+1. **Run main script:**
+   ```bash
+   python detect.py
+   ```
+   - Open eyes normally → check
+   - Close eyes for 2-3 seconds → verify alert
+   - Yawn 2-3 times → verify alert
+
+2. **If issues arise, use diagnostic:**
+   ```bash
+   python diagnostic.py
+   ```
+
+3. **If calibration needed:**
+   ```bash
+   python calibrate_eyes.py
+   ```
 
 ---
 
@@ -362,28 +583,21 @@ We welcome contributions! Please:
 
 ## License
 
-This project is licensed under [MIT License](LICENSE) - see the LICENSE file for details.
+This project is licensed under [MIT License](LICENSE)
 
 ---
 
 ## Contact
 
-- **Project Lead + AI Training**: Tran Chau Minh - [@CMTran2005](https://github.com/CMTran2005)
-- **Web & UI**: Tran Kim Thinh - [@thinhk16k5](https://github.com/TranKimThinh)
-- **Data & Design**: Tran Quang Huy - [@huydz252](https://github.com/huydz252)
-- **Email**: cmtran2005@gmail.com
-  
+- **Project Lead + AI Training**: CMTran2005 - [@CMTran2005](https://github.com/CMTran2005)
+- **Data & Design**: Trần Quang Huy - [@huydz252](https://github.com/huydz252)
+- **Web & UI**: Thịnh - [@thinhk16k5](https://github.com/thinhk16k5)
+
 ---
 
 ## Safety Notice
 
 This system is developed to **assist** drivers, not to **replace** their attention. Always comply with traffic laws and local regulations.
-
----
-
-## Acknowledgments
-
-Thank you to everyone who has contributed and supported this project!
 
 ---
 
@@ -394,3 +608,5 @@ If you like this project, please give it a star!
 <div align="center">
 
 [Back to Top](#driver-monitoring-ai)
+
+</div>
