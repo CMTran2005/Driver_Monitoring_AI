@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cài đặt Hệ thống</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body class="bg-dark text-light">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="index.html">🚗 Driver Monitor AI</a>
+            <a class="navbar-brand fw-bold" href="/">🚗 Driver Monitor AI</a>
             <div class="navbar-nav">
-                <a class="nav-link" href="index.html"><i class="bi bi-display"></i> Giám sát</a>
-                <a class="nav-link" href="history.html"><i class="bi bi-clock-history"></i> Lịch sử</a>
-                <a class="nav-link active" href="settings.html"><i class="bi bi-gear-fill"></i> Cài đặt</a>
+                <a class="nav-link" href="/"><i class="bi bi-display"></i> Giám sát</a>
+                <a class="nav-link" href="/history.html"><i class="bi bi-clock-history"></i> Lịch sử</a>
+                <a class="nav-link active" href="/settings.html"><i class="bi bi-gear-fill"></i> Cài đặt</a>
             </div>
         </div>
     </nav>
@@ -26,38 +24,83 @@
     <div class="container mt-4">
         <h2 class="mb-4">Cài đặt Hệ thống</h2>
 
+        <div id="save-toast" class="alert alert-success d-none position-fixed top-0 end-0 m-3" style="z-index:9999">
+            ✅ Đã lưu cài đặt thành công!
+        </div>
+
         <div class="row">
-            <div class="col-md-6">
-                <div class="card bg-secondary text-light mb-3">
+            <!-- Âm thanh -->
+            <div class="col-md-6 mb-3">
+                <div class="card bg-secondary text-light h-100">
                     <div class="card-body">
-                        <h5 class="card-title">Cảnh báo Âm thanh</h5>
+                        <h5 class="card-title"><i class="bi bi-volume-up"></i> Cảnh báo Âm thanh</h5>
                         <div class="form-check form-switch mt-3">
                             <input class="form-check-input" type="checkbox" id="soundToggle" checked>
-                            <label class="form-check-label" for="soundToggle">Bật còi báo động khi phát hiện nguy
-                                hiểm</label>
+                            <label class="form-check-label" for="soundToggle">
+                                Bật giọng nói cảnh báo khi phát hiện nguy hiểm
+                            </label>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="card bg-secondary text-light mb-3">
+            <!-- Thời gian nhắm mắt -->
+            <div class="col-md-6 mb-3">
+                <div class="card bg-secondary text-light h-100">
                     <div class="card-body">
-                        <h5 class="card-title">Độ nhạy AI (Thời gian nhắm mắt)</h5>
-                        <label for="sensitivityRange" class="form-label mt-2">Ngưỡng: <span id="senValue"
-                                class="fw-bold text-warning">2.0</span> giây</label>
-                        <input type="range" class="form-range" min="1" max="5" step="0.5" id="sensitivityRange"
-                            value="2.0" oninput="document.getElementById('senValue').innerText = this.value">
-                        <small class="text-light">Thời gian nhắm mắt liên tục trước khi hệ thống phát còi cảnh
-                            báo.</small>
+                        <h5 class="card-title"><i class="bi bi-eye-slash"></i> Ngưỡng thời gian nhắm mắt</h5>
+                        <label class="form-label mt-2">
+                            Cảnh báo sau: <span id="senValue" class="fw-bold text-warning">2.0</span> giây
+                        </label>
+                        <input type="range" class="form-range" min="1" max="5" step="0.5"
+                               id="sensitivityRange" value="2.0">
+                        <small class="text-light opacity-75">
+                            Thời gian mắt nhắm liên tục trước khi phát cảnh báo (tốc độ ~15fps).
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EAR Threshold -->
+            <div class="col-md-6 mb-3">
+                <div class="card bg-secondary text-light h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-sliders"></i> Ngưỡng EAR (Eye Aspect Ratio)</h5>
+                        <label class="form-label mt-2">
+                            EAR ngưỡng: <span id="earThreshValue" class="fw-bold text-info">0.22</span>
+                        </label>
+                        <input type="range" class="form-range" min="0.15" max="0.30" step="0.01"
+                               id="earThreshRange" value="0.22">
+                        <small class="text-light opacity-75">
+                            EAR dưới ngưỡng này = mắt đang nhắm. Tăng lên nếu hay bị báo nhầm.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAR Threshold -->
+            <div class="col-md-6 mb-3">
+                <div class="card bg-secondary text-light h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-emoji-neutral"></i> Ngưỡng MAR (Mouth Aspect Ratio)</h5>
+                        <label class="form-label mt-2">
+                            MAR ngưỡng: <span id="marThreshValue" class="fw-bold text-info">0.60</span>
+                        </label>
+                        <input type="range" class="form-range" min="0.4" max="0.9" step="0.05"
+                               id="marThreshRange" value="0.60">
+                        <small class="text-light opacity-75">
+                            MAR vượt ngưỡng = đang ngáp. Tăng lên nếu hay báo nhầm khi nói chuyện.
+                        </small>
                     </div>
                 </div>
             </div>
         </div>
 
-        <button id="saveSettingsBtn" class="btn btn-primary mt-3 px-4"><i class="bi bi-save"></i> Lưu Cài đặt</button>
+        <button id="saveSettingsBtn" class="btn btn-primary mt-2 px-4">
+            <i class="bi bi-save"></i> Lưu Cài đặt
+        </button>
     </div>
-<script src="../static/js/script.js"></script>
-</body>
 
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
 </html>

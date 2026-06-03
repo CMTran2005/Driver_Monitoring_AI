@@ -1,128 +1,222 @@
 // ==========================================
-// XỬ LÝ LƯU VÀ ĐỌC CÀI ĐẶT (LOCAL STORAGE)
+// CÀI ĐẶT - LOAD TỪ SERVER
 // ==========================================
+let isSoundEnabled = true;
 
-// 1. Đọc cài đặt cũ (nếu chưa có thì lấy mặc định là Bật âm thanh, độ nhạy 2.0s)
-let isSoundEnabled = localStorage.getItem('soundEnabled') !== 'false';
-let currentSensitivity = localStorage.getItem('sensitivity') || 2.0;
+async function loadSettings() {
+    try {
+        const res = await fetch('/api/settings');
+        const s = await res.json();
+        isSoundEnabled = s.soundEnabled !== false;
 
-// 2. Nếu đang ở trang Cài Đặt, tự động điền giá trị đã lưu vào form
-if (window.location.pathname.includes('settings.html')) {
-    document.getElementById('soundToggle').checked = isSoundEnabled;
-    document.getElementById('sensitivityRange').value = currentSensitivity;
-    document.getElementById('senValue').innerText = currentSensitivity;
+        if (window.location.pathname.includes('settings')) {
+            const toggle   = document.getElementById('soundToggle');
+            const senRange = document.getElementById('sensitivityRange');
+            const senVal   = document.getElementById('senValue');
+            const earRange = document.getElementById('earThreshRange');
+            const earVal   = document.getElementById('earThreshValue');
+            const marRange = document.getElementById('marThreshRange');
+            const marVal   = document.getElementById('marThreshValue');
 
-    // Khi bấm nút "Lưu Cài đặt"
-    document.getElementById('saveSettingsBtn').addEventListener('click', function () {
-        const soundStatus = document.getElementById('soundToggle').checked;
-        const senStatus = document.getElementById('sensitivityRange').value;
-
-        // Lưu vào bộ nhớ trình duyệt
-        localStorage.setItem('soundEnabled', soundStatus);
-        localStorage.setItem('sensitivity', senStatus);
-
-        alert("✅ Đã lưu cài đặt thành công! Hệ thống sẽ áp dụng ngay.");
-    });
+            if (toggle)   toggle.checked   = s.soundEnabled !== false;
+            if (senRange) { senRange.value = s.sensitivity || 2.0; senVal.innerText = s.sensitivity || 2.0; }
+            if (earRange) { earRange.value = s.earThresh   || 0.22; earVal.innerText = (s.earThresh || 0.22).toFixed(2); }
+            if (marRange) { marRange.value = s.marThresh   || 0.60; marVal.innerText = (s.marThresh || 0.60).toFixed(2); }
+        }
+    } catch(e) {}
 }
-// Tạo một đối tượng giọng nói ảo
+
+loadSettings();
+
+document.getElementById('sensitivityRange')?.addEventListener('input', function() {
+    document.getElementById('senValue').innerText = this.value;
+});
+document.getElementById('earThreshRange')?.addEventListener('input', function() {
+    document.getElementById('earThreshValue').innerText = parseFloat(this.value).toFixed(2);
+});
+document.getElementById('marThreshRange')?.addEventListener('input', function() {
+    document.getElementById('marThreshValue').innerText = parseFloat(this.value).toFixed(2);
+});
+
+document.getElementById('saveSettingsBtn')?.addEventListener('click', async function() {
+    const sensitivity  = parseFloat(document.getElementById('sensitivityRange').value);
+    const earThresh    = parseFloat(document.getElementById('earThreshRange').value);
+    const marThresh    = parseFloat(document.getElementById('marThreshRange').value);
+    const soundEnabled = document.getElementById('soundToggle').checked;
+    const eyeFrames    = Math.round(sensitivity * 15);
+    const yawnFrames   = 15; // cố định nhanh ~1 giây
+
+    try {
+        const res = await fetch('/api/settings', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ soundEnabled, sensitivity, earThresh, marThresh, eyeFrames, yawnFrames })
+        });
+        const data = await res.json();
+        if (data.ok) {
+            isSoundEnabled = soundEnabled;
+            const toast = document.getElementById('save-toast');
+            if (toast) { toast.classList.remove('d-none'); setTimeout(() => toast.classList.add('d-none'), 3000); }
+        }
+    } catch(e) { alert("❌ Lỗi kết nối server."); }
+});
+
+// ==========================================
+// CẢNH BÁO
+// ==========================================
 const robotVoice = new SpeechSynthesisUtterance();
-robotVoice.lang = 'vi-VN'; // Chọn tiếng Việt và 
+robotVoice.lang = 'vi-VN';
 robotVoice.text = "Cảnh báo nguy hiểm. Phát hiện tài xế đang buồn ngủ. Vui lòng hãy tập trung!";
+let isAlerting = false;
+let lastAlertStatus = "tỉnh táo";
 
-function triggerAlert() {
+function triggerAlert(type) {
+    if (isAlerting && lastAlertStatus === type) return;
+    isAlerting = true;
+    lastAlertStatus = type;
+
     const statusText = document.getElementById("status-text");
-    const alertBox = document.getElementById("alert-box");
+    const alertBox   = document.getElementById("alert-box");
+    const alertMsg   = document.getElementById("alert-msg");
 
-    statusText.innerText = "BUỒN NGỦ / MẤT TẬP TRUNG";
-    statusText.className = "text-danger fw-bold";
+    const label = type === "buồn ngủ" ? "BUỒN NGỦ" : type === "đang ngáp" ? "ĐANG NGÁP" : "MẤT TẬP TRUNG";
+    const cls   = type === "buồn ngủ" ? "text-danger" : "text-warning";
+    const msg   = type === "buồn ngủ" ? "⚠️ PHÁT HIỆN BUỒN NGỦ!" : "⚠️ PHÁT HIỆN NGÁP!";
 
-    alertBox.classList.remove("d-none");
-    alertBox.classList.add("alert-active");
+    if (statusText) { statusText.innerText = label; statusText.className = "fw-bold " + cls; }
+    if (alertBox)   { alertBox.classList.remove("d-none"); alertBox.classList.add("alert-active"); }
+    if (alertMsg)   alertMsg.innerText = msg;
 
-    // KIỂM TRA CÀI ĐẶT TRƯỚC KHI BÁO ĐỘNG
-    if (isSoundEnabled) {
+    if (isSoundEnabled && !window.speechSynthesis.speaking) {
         window.speechSynthesis.speak(robotVoice);
-    } else {
-        console.log("Cảnh báo bằng hình ảnh (Đã tắt âm thanh trong cài đặt)");
     }
 }
 
 function stopAlert() {
+    isAlerting = false;
+    lastAlertStatus = "tỉnh táo";
     const statusText = document.getElementById("status-text");
-    const alertBox = document.getElementById("alert-box");
-
-    statusText.innerText = "TỈNH TÁO";
-    statusText.className = "text-success fw-bold";
-
-    alertBox.classList.add("d-none");
-    alertBox.classList.remove("alert-active");
-
-    // Bấm tắt thì ngừng nói
+    const alertBox   = document.getElementById("alert-box");
+    if (statusText) { statusText.innerText = "TỈNH TÁO"; statusText.className = "text-success fw-bold"; }
+    if (alertBox)   { alertBox.classList.add("d-none"); alertBox.classList.remove("alert-active"); }
     window.speechSynthesis.cancel();
 }
-// ==========================================
-// CODE BIỂU ĐỒ EAR THỜI GIAN THỰC (CHART.JS)
-// ==========================================
 
 // ==========================================
-// CODE BIỂU ĐỒ EAR THỜI GIAN THỰC (CHART.JS)
+// BIỂU ĐỒ EAR REAL-TIME
 // ==========================================
-
-// Tìm thẻ biểu đồ trước
 const chartElement = document.getElementById('earChart');
 
-// CHỈ VẼ BIỂU ĐỒ NẾU ĐANG Ở TRANG GIÁM SÁT (TỒN TẠI THẺ EARCHART)
 if (chartElement) {
+    const MAX_PTS = 40;
     const ctx = chartElement.getContext('2d');
     const earChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+            labels: Array(MAX_PTS).fill(''),
             datasets: [{
-                label: 'Độ mở của mắt (EAR)',
-                data: [0.3, 0.32, 0.31, 0.3, 0.33, 0.3, 0.31, 0.32, 0.3, 0.31],
-                borderColor: '#00ff00',
+                label: 'EAR thực tế',
+                data: Array(MAX_PTS).fill(0.30),
+                borderColor: '#00ff99',
+                backgroundColor: 'rgba(0,255,153,0.07)',
                 borderWidth: 2,
-                fill: false,
-                tension: 0.3
+                fill: true,
+                tension: 0.4,
+                pointRadius: 0
             }, {
                 label: 'Ngưỡng nguy hiểm',
-                data: [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2],
-                borderColor: '#ff0000',
-                borderWidth: 1,
-                borderDash: [5, 5],
+                data: Array(MAX_PTS).fill(0.22),
+                borderColor: '#ff4444',
+                borderWidth: 1.5,
+                borderDash: [6, 4],
                 fill: false,
                 pointRadius: 0
             }]
         },
         options: {
             responsive: true,
+            animation: false,
+            plugins: { legend: { labels: { color: '#ccc', font: { size: 12 } } } },
             scales: {
-                y: { min: 0.1, max: 0.4 },
+                y: { min: 0.05, max: 0.45, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#aaa' } },
                 x: { display: false }
-            },
-            animation: false
+            }
         }
     });
 
-    setInterval(() => {
-        let newValue = (Math.random() * (0.35 - 0.25) + 0.25).toFixed(2);
+    setInterval(async () => {
+        try {
+            const res  = await fetch('/api/status');
+            const data = await res.json();
+            const ear    = parseFloat(data.ear) || 0.30;
+            const status = data.status;
 
-        if (Math.random() < 0.1) {
-            newValue = (Math.random() * (0.18 - 0.12) + 0.12).toFixed(2);
-        }
+            earChart.data.datasets[0].data.push(ear);
+            earChart.data.datasets[0].data.shift();
+            earChart.data.labels.push('');
+            earChart.data.labels.shift();
+            earChart.data.datasets[0].borderColor     = ear < 0.22 ? '#ff4444' : '#00ff99';
+            earChart.data.datasets[0].backgroundColor = ear < 0.22 ? 'rgba(255,68,68,0.1)' : 'rgba(0,255,153,0.07)';
+            earChart.update();
 
-        earChart.data.labels.push('');
-        earChart.data.labels.shift();
-        earChart.data.datasets[0].data.push(newValue);
-        earChart.data.datasets[0].data.shift();
+            const earVal = document.getElementById('ear-value');
+            if (earVal) earVal.innerText = ear.toFixed(3);
 
-        if (newValue < 0.2) {
-            earChart.data.datasets[0].borderColor = '#ff0000';
-        } else {
-            earChart.data.datasets[0].borderColor = '#00ff00';
-        }
+            if (status !== "tỉnh táo") triggerAlert(status);
+            else if (isAlerting) stopAlert();
 
-        earChart.update();
+        } catch(e) {}
     }, 500);
+}
+
+// ==========================================
+// LỊCH SỬ - hàm ở global scope để onclick gọi được
+// ==========================================
+async function loadHistory() {
+    try {
+        const res   = await fetch('/api/history');
+        const data  = await res.json();
+        const tbody = document.getElementById('history-tbody');
+        if (!tbody) return;
+
+        const lastUpdate = document.getElementById('last-update');
+        if (lastUpdate) lastUpdate.innerText = 'Cập nhật: ' + new Date().toLocaleTimeString('vi-VN');
+
+        if (data.length === 0) {
+            tbody.innerHTML = `
+                <tr><td colspan="4" class="text-center text-white py-5">
+                    <i class="bi bi-check-circle text-success fs-4"></i><br>
+                    Chưa có cảnh báo nào trong phiên này.
+                </td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = data.map((item, i) => `
+            <tr>
+                <td class="text-muted">${i + 1}</td>
+                <td><i class="bi bi-clock me-1 text-secondary"></i>${item.time}</td>
+                <td>${item.type}</td>
+                <td><span class="badge bg-${item.level}">${item.level_text}</span></td>
+            </tr>
+        `).join('');
+    } catch(e) {
+        const tbody = document.getElementById('history-tbody');
+        if (tbody) tbody.innerHTML = `
+            <tr><td colspan="4" class="text-center text-danger py-3">
+                ❌ Không thể kết nối server.
+            </td></tr>`;
+    }
+}
+
+async function clearHistory() {
+    if (!confirm("Xóa toàn bộ lịch sử cảnh báo?")) return;
+    try {
+        await fetch('/api/history/clear', { method: 'POST' });
+        loadHistory();
+    } catch(e) {}
+}
+
+if (window.location.pathname.includes('history')) {
+    loadHistory();
+    setInterval(loadHistory, 5000);
 }
